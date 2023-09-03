@@ -12,6 +12,7 @@ SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 650
 CELL_SIZE = 100
 
+
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Connect 4')
