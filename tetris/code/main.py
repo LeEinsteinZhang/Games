@@ -8,7 +8,7 @@ WID_WIDTH = 600
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((WID_WIDTH, WID_HEIGHT))
 
-Image = pygame.image.load("../pic/yellow.png")
+Image = pygame.image.load("../src/img/yellow.png")
 Rect = Image.get_rect()
 Rect.center = (WID_WIDTH / 2, WID_HEIGHT / 2)
 
