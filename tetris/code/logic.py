@@ -9,8 +9,8 @@ def check_collision(grid, shape, offset):
         for j in range(len(row)):
             cell = row[j]
             if cell:
-                if (i + x_shift > len(grid) - 1) or \
-                   (j + y_shift > len(grid[i]) - 1) or \
+                if (i + x_shift > GRID_HEIGHT - 1) or \
+                   (j + y_shift > GRID_WIDTH - 1) or \
                    (j + y_shift < 0) or \
                    (grid[i + x_shift][j + y_shift]):
                     return True
