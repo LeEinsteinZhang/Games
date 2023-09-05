@@ -20,7 +20,7 @@ def join_matrix(grid, shape, shape_id, offset):
     for i, row in enumerate(shape):
         for j, cell in enumerate(row):
             if cell:
-                grid[i + off_x][j + off_y] = shape_id  # 使用 shape_id 而不是 color
+                grid[i + off_x][j + off_y] = shape_id
     return grid
 
 def new_board():

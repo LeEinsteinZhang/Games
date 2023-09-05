@@ -33,14 +33,12 @@ def select_speed(screen, font):
     slow_button = Button(100, 150, 100, 50, "Slow", font, WHITE, BLUE)
     medium_button = Button(100, 220, 100, 50, "Medium", font, WHITE, BLUE)
     fast_button = Button(100, 290, 100, 50, "Fast", font, WHITE, BLUE)
-
     running = True
     while running:
         screen.fill(BLACK)
         slow_button.draw(screen)
         medium_button.draw(screen)
         fast_button.draw(screen)
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -52,23 +50,42 @@ def select_speed(screen, font):
                 elif medium_button.is_over(pos):
                     return 1
                 elif fast_button.is_over(pos):
-                    return 2
-        
+                    return 2  
         pygame.display.flip()
 
+
+def draw_pause_screen(screen, font):
+    overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+    overlay.fill((0, 0, 0, 128))
+    screen.blit(overlay, (0, 0))
+    paused_text = font.render("Paused", True, (255, 255, 255))
+    text_rect = paused_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2))
+    screen.blit(paused_text, text_rect.topleft)
+
+
 def game_over_screen(screen, font, score):
-    screen.fill(BLACK)
-    
-    score_text = font.render(f"Score: {score}", True, WHITE)
-    screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, 100))
-    
-    new_game_button = Button(SCREEN_WIDTH // 2 - 100, 200, 200, 50, 'New Game', font, WHITE, BLUE)
-    quit_button = Button(SCREEN_WIDTH // 2 - 100, 270, 200, 50, 'Quit', font, WHITE, BLUE)
-    
-    new_game_button.draw(screen)
-    quit_button.draw(screen)
-    
-    return new_game_button, quit_button
+    running = True
+    while running:
+        screen.fill(BLACK)
+        score_text = font.render(f"Score: {score}", True, WHITE)
+        screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, 100))
+        new_game_button = Button(SCREEN_WIDTH // 2 - 100, 200, 200, 50, 'New Game', font, WHITE, BLUE)
+        quit_button = Button(SCREEN_WIDTH // 2 - 100, 270, 200, 50, 'Quit', font, WHITE, BLUE)
+        new_game_button.draw(screen)
+        quit_button.draw(screen)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                if new_game_button.is_over(pos):
+                    return True
+                elif quit_button.is_over(pos):
+                    pygame.quit()
+                    sys.exit()
+        pygame.display.flip()
+
 
 
 def draw_board(screen, grid):
@@ -88,15 +105,14 @@ def draw_info(screen, font, score, speed):
     score_label = font.render(f'Score: {score}', True, (255, 255, 255))
     speed_label = font.render(f'Speed: {speed}', True, (255, 255, 255))
     screen.blit(score_label, (10, 15))
-    screen.blit(speed_label, (SCREEN_WIDTH / 2, 15))
+    screen.blit(speed_label, (140, 15))
 
 
 def draw_border(screen):
-    offset_y = 50  # 下移偏移量
+    offset_y = 50
     for i in range(GRID_HEIGHT + 2):
         screen.blit(GREY_BORDER, ((GRID_WIDTH + 1) * BLOCK_SIZE, i * BLOCK_SIZE + offset_y))  # Right border
         screen.blit(GREY_BORDER, (0, i * BLOCK_SIZE + offset_y))  # Left border
-
     for i in range(GRID_WIDTH + 2):
         screen.blit(GREY_BORDER, (i * BLOCK_SIZE, 0 + offset_y))  # Top border
         screen.blit(GREY_BORDER, (i * BLOCK_SIZE, (GRID_HEIGHT + 1) * BLOCK_SIZE + offset_y))  # Bottom border
@@ -106,48 +122,65 @@ def game_loop(screen, font, speed_index):
     clock = pygame.time.Clock()
     grid = new_board()
     current_piece = Tetromino()
-    # paused = False
+    paused = False
     game_over = False
     fall_time = 0
     score = 0
 
+    pause_button = Button(SCREEN_WIDTH - 100, 10, 90, 30, "Pause", font, (255, 255, 255), (100, 100, 100))
+    
     while not game_over:
         screen.fill((0, 0, 0))
         fall_speed = SPEEDS[speed_index]
-        fall_time += clock.get_rawtime()
-        if fall_time > fall_speed:
-            if not check_collision(grid, current_piece.shape, [current_piece.position[0] + 1, current_piece.position[1]]):
-                current_piece.move_down()
-            else:
-                grid = join_matrix(grid, current_piece.shape, current_piece.template['id'], current_piece.position)
-                cleared_lines, grid = clear_lines(grid)
-                score += cleared_lines * (speed_index + 1) * 100
-                current_piece = Tetromino()
-                if check_collision(grid, current_piece.shape, current_piece.position):
-                    game_over = True
-            fall_time = 0
+        if not paused:
+            fall_time += clock.get_rawtime()
+            if fall_time > fall_speed:
+                if not check_collision(grid, current_piece.shape, [current_piece.position[0] + 1, current_piece.position[1]]):
+                    current_piece.move_down()
+                else:
+                    grid = join_matrix(grid, current_piece.shape, current_piece.template['id'], current_piece.position)
+                    cleared_lines, grid = clear_lines(grid)
+                    score += cleared_lines * (speed_index + 1) * 100
+                    current_piece = Tetromino()
+                    if check_collision(grid, current_piece.shape, current_piece.position):
+                        game_over = True
+                fall_time = 0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                if pause_button.is_over(pos):  # 检查是否点击了 pause_button
+                    paused = not paused  # 切换 paused 状态
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT and not check_collision(grid, current_piece.shape, [current_piece.position[0], current_piece.position[1] - 1]):
-                    current_piece.move_left()
-                elif event.key == pygame.K_RIGHT and not check_collision(grid, current_piece.shape, [current_piece.position[0], current_piece.position[1] + 1]):
-                    current_piece.move_right()
-                elif event.key == pygame.K_DOWN and not check_collision(grid, current_piece.shape, [current_piece.position[0] + 1, current_piece.position[1]]):
-                    current_piece.move_down()
-                elif event.key == pygame.K_UP:
-                    current_piece.rotate()
-                    if check_collision(grid, current_piece.shape, current_piece.position):
+                if event.key == pygame.K_SPACE:  # 添加暂停功能
+                    paused = not paused
+                if not paused:
+                    if event.key == pygame.K_LEFT and not check_collision(grid, current_piece.shape, [current_piece.position[0], current_piece.position[1] - 1]):
+                        current_piece.move_left()
+                    elif event.key == pygame.K_RIGHT and not check_collision(grid, current_piece.shape, [current_piece.position[0], current_piece.position[1] + 1]):
+                        current_piece.move_right()
+                    elif event.key == pygame.K_DOWN and not check_collision(grid, current_piece.shape, [current_piece.position[0] + 1, current_piece.position[1]]):
+                        current_piece.move_down()
+                    elif event.key == pygame.K_UP:
                         current_piece.rotate()
-                        current_piece.rotate()
-                        current_piece.rotate()
+                        if check_collision(grid, current_piece.shape, current_piece.position):
+                            current_piece.rotate()
+                            current_piece.rotate()
+                            current_piece.rotate()
 
         draw_board(screen, grid)
         draw_piece(screen, current_piece)
         draw_info(screen, font, score, SPEED_LABELS[speed_index])
         draw_border(screen)
+
+        pause_button.draw(screen)  # 绘制暂停按钮
+        if paused:
+            draw_pause_screen(screen, font)  # 如果游戏暂停了，就显示一个暂停屏幕
+
         pygame.display.flip()
         clock.tick(60)
+
+    game_over_screen(screen, font, score)  # 游戏结束后，显示游戏结束屏幕

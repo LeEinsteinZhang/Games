@@ -12,7 +12,11 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption('Tetris')
     
-    speed_index = select_speed(screen, FONT)
-    game_loop(screen, FONT, speed_index)
+    while True:
+        speed_index = select_speed(screen, FONT)
+        game_loop(screen, FONT, speed_index)
+        if not game_over_screen(screen, FONT, 0):
+            break
 
-main()
+if __name__ == "__main__":
+    main()
