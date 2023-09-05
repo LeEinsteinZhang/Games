@@ -109,13 +109,12 @@ def draw_info(screen, font, score, speed):
 
 
 def draw_border(screen):
-    offset_y = 50
     for i in range(GRID_HEIGHT + 2):
-        screen.blit(GREY_BORDER, ((GRID_WIDTH + 1) * BLOCK_SIZE, i * BLOCK_SIZE + offset_y))  # Right border
-        screen.blit(GREY_BORDER, (0, i * BLOCK_SIZE + offset_y))  # Left border
+        screen.blit(GREY_BORDER, ((GRID_WIDTH + 1) * BLOCK_SIZE, i * BLOCK_SIZE + INFO_HEIGHT))  # Right border
+        screen.blit(GREY_BORDER, (0, i * BLOCK_SIZE + INFO_HEIGHT))  # Left border
     for i in range(GRID_WIDTH + 2):
-        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, 0 + offset_y))  # Top border
-        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, (GRID_HEIGHT + 1) * BLOCK_SIZE + offset_y))  # Bottom border
+        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, 0 + INFO_HEIGHT))  # Top border
+        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, (GRID_HEIGHT + 1) * BLOCK_SIZE + INFO_HEIGHT))  # Bottom border
 
 
 def game_loop(screen, font, speed_index):
