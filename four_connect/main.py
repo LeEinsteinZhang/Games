@@ -14,12 +14,12 @@ while running:
             running = False
         if event.type == MOUSEBUTTONDOWN:
             col = event.pos[0] // CELL_SIZE
-            game.connect_drop_piece(col)
-            if game.connect_has_finished():
-                if game.connect_has_won() == 0:
+            game.drop_piece(col)
+            if game.is_finish():
+                if game.winner() == 0:
                     show_message(screen, "The game ended with a draw.")
                 else:
-                    show_message(screen, f"Player {game.connect_has_won()} wins!")
+                    show_message(screen, f"Player {game.winner()} wins!")
                 game = Connect()
 
     draw_board(screen, game, Connect)

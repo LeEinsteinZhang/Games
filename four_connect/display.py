@@ -29,7 +29,7 @@ def draw_board(screen, board, Connect):
             pygame.draw.rect(screen, WHITE, (col * CELL_SIZE + 5, row * CELL_SIZE + 5 + 50, CELL_SIZE - 10, CELL_SIZE - 10))
             pygame.draw.circle(screen, WHITE,
                                (int(col * CELL_SIZE + CELL_SIZE / 2), int(row * CELL_SIZE + CELL_SIZE / 2 + 50)), 40)
-            char = board.get_char(col, row)
+            char = board.get_player(col, row)
             if char == 1:
                 pygame.draw.circle(screen, RED,
                                    (int(col * CELL_SIZE + CELL_SIZE / 2), int(row * CELL_SIZE + CELL_SIZE / 2 + 50)), 40)
