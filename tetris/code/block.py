@@ -13,6 +13,8 @@ TETROMINOS = [
     {'id': 'Z', 'shape': [[1, 1, 0], [0, 1, 1]], 'color': pygame.transform.scale(pygame.image.load('../src/img/red.png'), (BLOCK_SIZE, BLOCK_SIZE))}
 ]
 
+GREY_BORDER = pygame.transform.scale(pygame.image.load('../src/img/grey.png'), (BLOCK_SIZE, BLOCK_SIZE))
+
 TETROMINO_SURFACES = {tetromino['id']: tetromino['color'] for tetromino in TETROMINOS}
 
 class Tetromino:

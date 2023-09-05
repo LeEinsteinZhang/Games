@@ -4,28 +4,37 @@ from const import *
 from logic import *
 
 pygame.init()
-FONT = pygame.font.SysFont('Arial', 30)
-
+FONT = pygame.font.SysFont('Arial', 16)
 
 def draw_board(screen, grid):
     for i, row in enumerate(grid):
         for j, cell in enumerate(row):
             if cell:
-                screen.blit(TETROMINO_SURFACES[cell], (j * BLOCK_SIZE, i * BLOCK_SIZE))
-
+                screen.blit(TETROMINO_SURFACES[cell], (j * BLOCK_SIZE + BLOCK_SIZE, i * BLOCK_SIZE + BLOCK_SIZE + 50))
 
 def draw_piece(screen, piece):
     for i, row in enumerate(piece.shape):
         for j, cell in enumerate(row):
             if cell:
-                screen.blit(piece.color, (piece.position[1] * BLOCK_SIZE + j * BLOCK_SIZE, piece.position[0] * BLOCK_SIZE + i * BLOCK_SIZE))
+                screen.blit(piece.color, (piece.position[1] * BLOCK_SIZE + j * BLOCK_SIZE + BLOCK_SIZE, piece.position[0] * BLOCK_SIZE + i * BLOCK_SIZE + BLOCK_SIZE + 50))
+
+
+def draw_border(screen):
+    offset_y = 50  # 下移偏移量
+    for i in range(GRID_HEIGHT + 2):
+        screen.blit(GREY_BORDER, ((GRID_WIDTH + 1) * BLOCK_SIZE, i * BLOCK_SIZE + offset_y))  # Right border
+        screen.blit(GREY_BORDER, (0, i * BLOCK_SIZE + offset_y))  # Left border
+
+    for i in range(GRID_WIDTH + 2):
+        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, 0 + offset_y))  # Top border
+        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, (GRID_HEIGHT + 1) * BLOCK_SIZE + offset_y))  # Bottom border
 
 
 def draw_info(screen, score, speed):
     score_label = FONT.render(f'Score: {score}', True, (255, 255, 255))
     speed_label = FONT.render(f'Speed: {speed}', True, (255, 255, 255))
-    screen.blit(score_label, (10, 10))
-    screen.blit(speed_label, (10, 40))
+    screen.blit(score_label, (10, 15))
+    screen.blit(speed_label, (SCREEN_WIDTH / 2, 15))
 
 
 def game_loop(screen):
@@ -80,6 +89,7 @@ def game_loop(screen):
         draw_board(screen, grid)
         draw_piece(screen, current_piece)
         draw_info(screen, score, SPEED_LABELS[speed_index])
+        draw_border(screen)
         pygame.display.flip()
         clock.tick(60)
 
