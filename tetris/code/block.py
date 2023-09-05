@@ -15,9 +15,9 @@ TETROMINOS = [
 
 class Tetromino:
     def __init__(self):
-        self.template = random.choice(TETROMINOS)
-        self.shape = self.template['shape']
-        self.color = self.template['color']
+        self.blocks = random.choice(TETROMINOS)
+        self.shape = self.blocks['shape']
+        self.color = self.blocks['color']
         self.position = [0, GRID_WIDTH // 2 - len(self.shape[0]) // 2]
 
     def rotate(self):

@@ -138,7 +138,7 @@ def game_loop(screen, font, speed_index):
                 if not check_collision(grid, current_piece.shape, [current_piece.position[0] + 1, current_piece.position[1]]):
                     current_piece.move_down()
                 else:
-                    grid = join_matrix(grid, current_piece.shape, current_piece.template['id'], current_piece.position)
+                    grid = join_matrix(grid, current_piece.shape, current_piece.blocks['id'], current_piece.position)
                     cleared_lines, grid = clear_lines(grid)
                     score += cleared_lines * (speed_index + 1) * 100
                     current_piece = Tetromino()
