@@ -87,12 +87,12 @@ def game_over_screen(screen, font, score):
         pygame.display.flip()
 
 
-
 def draw_board(screen, grid):
     for i, row in enumerate(grid):
         for j, cell in enumerate(row):
             if cell:
                 screen.blit(TETROMINO_SURFACES[cell], (j * BLOCK_SIZE + BLOCK_SIZE, i * BLOCK_SIZE + BLOCK_SIZE + 50))
+
 
 def draw_piece(screen, piece):
     for i, row in enumerate(piece.shape):
@@ -140,7 +140,9 @@ def game_loop(screen, font, speed_index):
                 else:
                     grid = join_matrix(grid, current_piece.shape, current_piece.blocks['id'], current_piece.position)
                     cleared_lines, grid = clear_lines(grid)
-                    score += cleared_lines * (speed_index + 1) * 100
+                    score_const = (speed_index + 1)
+                    line_const = 1 + (cleared_lines - 1) * (cleared_lines // 6)
+                    score += cleared_lines * score_const * line_const * 100
                     current_piece = Tetromino()
                     if check_collision(grid, current_piece.shape, current_piece.position):
                         game_over = True
