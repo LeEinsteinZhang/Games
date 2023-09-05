@@ -4,3 +4,6 @@ SPEEDS = [200, 100, 50]
 SPEED_LABELS = ['Slow', 'Medium', 'Fast']
 GRID_WIDTH = 10  # You'll need to set this to the appropriate value
 GRID_HEIGHT = 20  # You'll need to set this to the appropriate value
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
