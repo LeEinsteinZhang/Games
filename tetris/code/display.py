@@ -30,9 +30,9 @@ class Button:
 
 
 def select_speed(screen, font):
-    slow_button = Button(100, 150, 100, 50, "Slow", font, WHITE, BLUE)
-    medium_button = Button(100, 220, 100, 50, "Medium", font, WHITE, BLUE)
-    fast_button = Button(100, 290, 100, 50, "Fast", font, WHITE, BLUE)
+    slow_button = Button(SCREEN_WIDTH // 2 - 50, 150, 100, 50, "Slow", font, WHITE, BLUE)
+    medium_button = Button(SCREEN_WIDTH // 2 - 50, 220, 100, 50, "Medium", font, WHITE, BLUE)
+    fast_button = Button(SCREEN_WIDTH // 2 - 50, 290, 100, 50, "Fast", font, WHITE, BLUE)
     running = True
     while running:
         screen.fill(BLACK)
