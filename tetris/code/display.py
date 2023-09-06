@@ -80,7 +80,7 @@ def game_over_screen(screen, font, score):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if new_game_button.is_over(pos):
-                    return True
+                    return
                 elif quit_button.is_over(pos):
                     pygame.quit()
                     sys.exit()
