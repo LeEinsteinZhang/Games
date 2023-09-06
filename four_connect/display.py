@@ -2,13 +2,13 @@ import pygame
 from pygame.locals import *
 
 # CONSTANTS
+SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 650
+CELL_SIZE = 100
 WHITE = (200, 200, 200)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 BLACK = (50, 50, 50)
-SCREEN_WIDTH = 700
-SCREEN_HEIGHT = 650
-CELL_SIZE = 100
 
 
 pygame.init()
