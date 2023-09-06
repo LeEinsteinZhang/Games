@@ -15,8 +15,6 @@ def main():
     while True:
         speed_index = select_speed(screen, FONT)
         game_loop(screen, FONT, speed_index)
-        if not game_over_screen(screen, FONT, 0):
-            break
 
 if __name__ == "__main__":
     main()

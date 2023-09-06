@@ -110,11 +110,11 @@ def draw_info(screen, font, score, speed):
 
 def draw_border(screen):
     for i in range(GRID_HEIGHT + 2):
-        screen.blit(GREY_BORDER, ((GRID_WIDTH + 1) * BLOCK_SIZE, i * BLOCK_SIZE + INFO_HEIGHT))  # Right border
-        screen.blit(GREY_BORDER, (0, i * BLOCK_SIZE + INFO_HEIGHT))  # Left border
+        screen.blit(GREY_BORDER, ((GRID_WIDTH + 1) * BLOCK_SIZE, i * BLOCK_SIZE + INFO_HEIGHT))
+        screen.blit(GREY_BORDER, (0, i * BLOCK_SIZE + INFO_HEIGHT))
     for i in range(GRID_WIDTH + 2):
-        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, 0 + INFO_HEIGHT))  # Top border
-        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, (GRID_HEIGHT + 1) * BLOCK_SIZE + INFO_HEIGHT))  # Bottom border
+        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, 0 + INFO_HEIGHT))
+        screen.blit(GREY_BORDER, (i * BLOCK_SIZE, (GRID_HEIGHT + 1) * BLOCK_SIZE + INFO_HEIGHT))
 
 
 def game_loop(screen, font, speed_index):
@@ -153,10 +153,10 @@ def game_loop(screen, font, speed_index):
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
-                if pause_button.is_over(pos):  # 检查是否点击了 pause_button
-                    paused = not paused  # 切换 paused 状态
+                if pause_button.is_over(pos):
+                    paused = not paused
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:  # 添加暂停功能
+                if event.key == pygame.K_SPACE:
                     paused = not paused
                 if not paused:
                     if event.key == pygame.K_LEFT and not check_collision(grid, current_piece.shape, [current_piece.position[0], current_piece.position[1] - 1]):
@@ -177,11 +177,11 @@ def game_loop(screen, font, speed_index):
         draw_info(screen, font, score, SPEED_LABELS[speed_index])
         draw_border(screen)
 
-        pause_button.draw(screen)  # 绘制暂停按钮
+        pause_button.draw(screen)
         if paused:
-            draw_pause_screen(screen, font)  # 如果游戏暂停了，就显示一个暂停屏幕
+            draw_pause_screen(screen, font)
 
         pygame.display.flip()
         clock.tick(60)
 
-    game_over_screen(screen, font, score)  # 游戏结束后，显示游戏结束屏幕
+    game_over_screen(screen, font, score)
