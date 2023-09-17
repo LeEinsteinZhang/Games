@@ -106,7 +106,7 @@ int change_X(vector<vector<char>> board, int y) {
 int main() {
     vector<vector<char>> board(max_row, vector<char>(max_col, '-'));
     char color = 'B';
-        for (int i = 0; i < 42; ++i) {
+        for (int i = 0; i < max_row * max_col; ++i) {
             int y;
             color = i % 2 ? 'W' : 'B';
             while(!(std::cin >> y)) {
