@@ -27,5 +27,3 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
-
-a = 1
